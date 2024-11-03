@@ -23,3 +23,4 @@ S/W load balancing are - HA Proxy, Nginix (Often used as a web server, load bala
 Cloud based load balancing are - AWS load balancing, Micrisoft Azure load balancer, Gcloud load balancer
 
 ![alt text](image.png)
+
