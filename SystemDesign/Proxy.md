@@ -6,6 +6,7 @@ e.g. 1. your compnay might not want emp to visit certain website, so they will s
 2. Also do load balancing
 3. also CDN are like reverse proxy CDN is content delivery network
 
+
 Loading balancing have few ways in which it balances the load
 1. Round Robin - when a new client is making a request it goes in the round/circle pattern to all the avaible server in the pool
 2. Least Connection - Direct traffic to the serve with least active Connection
