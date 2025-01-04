@@ -18,6 +18,7 @@ same server to persist session
 have different ram cpu etc
 6. Gepgrphic Algo - request is send to the server whihc is Gepgrphically closser
 
+
 FAMOUS 
 H/W load balancing are - F5, citrix
 S/W load balancing are - HA Proxy, Nginix (Often used as a web server, load balance, reverse proxy, etc)
