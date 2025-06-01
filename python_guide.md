@@ -1,131 +1,190 @@
-
-# Python Quick Reference Guide
+# Python DSA Cheat Sheet
 
 ## Data Structures
 
-### Lists
-- **Creation**
-  ```python
-  lst = []  # Empty list
-  lst = [1, 2, 3]  # With elements
-  lst = [0] * 5  # [0, 0, 0, 0, 0]
-  ```
-- **Basic Operations**
-  ```python
-  lst[0]  # Access first element
-  lst[-1]  # Access last element
-  lst.append(x)  # Add to end
-  lst.pop()  # Remove & return last element
-  lst.pop(0)  # Remove & return first element
-  lst.insert(index, x)  # Insert at index
-  del lst[1]  # Delete at index
-  len(lst)  # Length of list
-  ```
-- **Slicing**
-  ```python
-  lst[1:4]  # Elements from index 1 to 3
-  lst[:3]  # Elements from start to index 2
-  lst[3:]  # Elements from index 3 to end
-  lst[::-1]  # Reverse list
-  ```
+### List
+```python
+# Creating and modifying a list
+lst = [1, 2, 3]
+lst = [0] * 5                # Create list with repeated elements: [0, 0, 0, 0, 0]
+lst.append(4)                # Add to end
+x = lst.pop()                # Remove and return last element
+x = lst.pop(0)               # Remove and return first element
+lst.insert(0, 0)             # Insert at index
+lst.extend([5, 6])           # Extend with another list
 
-### Dictionary (HashMap)
-- **Creation & Basic Operations**
-  ```python
-  d = {}  # Empty dictionary
-  d = {1: "one", 2: "two"}  # With key-value pairs
-  d[key] = value  # Add/Update
-  d.get(key, default)  # Get value with default
-  del d[key]  # Delete key-value pair
-  ```
-- **Useful Methods**
-  ```python
-  d.keys()  # Get all keys
-  d.values()  # Get all values
-  d.items()  # Get all key-value pairs
-  ```
-- **Frequency Counter Pattern**
-  ```python
-  freq = {}
-  for num in nums:
-      freq[num] = freq.get(num, 0) + 1
-  ```
-- **Counter (from collections)**
-  ```python
-  from collections import Counter
-  nums = [1, 2, 2, 3, 3, 3]
-  count = Counter(nums)  # Counter({3: 3, 2: 2, 1: 1})
-  ```
+# Access and slicing
+first_element = lst[0]
+last_element = lst[-1]
+sub_list = lst[1:3]          # Elements at indices 1 and 2
+rev_list = lst[::-1]         # Reverse list
 
-## Common Algorithms & Time Complexities
+# Common operations
+lst.sort()                   # Sort in ascending order
+lst.sort(reverse=True)       # Sort in descending order
+sorted_lst = sorted(lst)     # Return a new sorted list
+length = len(lst)            # Get number of items
+count = lst.count(2)         # Count occurrences of 2
+index = lst.index(3)         # Find first index of 3
 
-### Sorting
-- **Tim Sort (Python's built-in sort)**
-  ```python
-  lst.sort()  # In-place, O(n log n)
-  sorted(lst)  # Returns new list, O(n log n)
-  lst.sort(reverse=True)  # Sort in descending order
-  lst.sort(key=len)  # Sort by length
-  ```
+# Remove duplicates while preserving order
+seen = set()
+unique_lst = [x for x in lst if x not in seen and not seen.add(x)]
+```
 
-### Heap Operations (heapq)
-- **Using Min Heap**
-  ```python
-  import heapq
-  heapq.heappush(heap, item)  # O(log n)
-  heapq.heappop(heap)  # O(log n)
-  heapq.heapify(lst)  # O(n)
-  heap[0]  # Get min element O(1)
-  ```
-- **For Max Heap**
-  ```python
-  heapq.heappush(heap, -item)  # Push negative values
-  -heapq.heappop(heap)  # Pop and revert
-  ```
-
-### Queue Operations (deque)
+### Deque (Double-Ended Queue)
 ```python
 from collections import deque
+
 q = deque()
-q.append(x)  # Add to right, O(1)
-q.popleft()  # Remove from left, O(1)
-q.appendleft(x)  # Add to left, O(1)
-q.pop()  # Remove from right, O(1)
+q.append(x)                  # Enqueue at right
+x = q.popleft()              # Dequeue from left
+q.appendleft(x)              # Enqueue at left
+x = q.pop()                  # Dequeue from right
 ```
 
-## Useful Tricks
-
-### String Operations
+### Heap (Min-Heap / Priority Queue)
 ```python
-s = "hello world"
-s = s.strip()  # Remove whitespace
-s = s.lower()  # Convert to lowercase
-''.join(lst)  # Join list elements into string
-s[::-1]  # Reverse string
-ord('a')  # Get ASCII value of character
+import heapq
+
+h = []
+heapq.heappush(h, x)         # Push item onto heap (O(log n))
+x = heapq.heappop(h)         # Pop smallest item (O(log n))
+heapq.heapify(lst)           # Transform list into a heap (O(n))
+min_item = h[0]              # Peek at smallest element (O(1))
+
+# For Max-Heap using negation
+heapq.heappush(h, -item)
+max_item = -heapq.heappop(h)
 ```
 
-### Bit Operations
+### Dictionary (Hash Map)
 ```python
-n & 1  # Check if odd (1) or even (0)
-n >> 1  # Divide by 2
-n << 1  # Multiply by 2
+d = {'key': value}           # Create with key-value pairs
+d = {}                        # Empty dictionary
+d[key] = value                # Add or update
+value = d.get(key, default)   # Access with default if key missing
+del d[key]                    # Remove key-value pair
+keys = list(d.keys())
+values = list(d.values())
+
+# Frequency Counter Pattern
+freq = {}
+for num in nums:
+    freq[num] = freq.get(num, 0) + 1
+
+# Using Counter from collections
+from collections import Counter
+nums = [1, 2, 2, 3, 3, 3]
+count = Counter(nums)         # Counter({3: 3, 2: 2, 1: 1})
 ```
 
-### List Comprehension
+### Set
 ```python
-[x for x in range(5)]  # [0, 1, 2, 3, 4]
-[x for x in lst if x > 0]  # Filter positive numbers
-[x if x > 0 else 0 for x in lst]  # With condition
+s = set()
+s.add(x)         # Add element
+s.remove(x)      # Remove element
+exists = x in s  # Check membership
+```
+
+### Linked List Node
+```python
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+# Example: creating a linked list with two nodes
+node1 = ListNode(1)
+node2 = ListNode(2)
+node1.next = node2
+```
+
+## Algorithms
+
+### Breadth-First Search (BFS)
+```python
+from collections import deque
+
+def bfs(start, graph):
+    q = deque([start])
+    visited = set([start])
+    while q:
+        node = q.popleft()
+        for neighbor in graph[node]:
+            if neighbor not in visited:
+                visited.add(neighbor)
+                q.append(neighbor)
+```
+
+### Depth-First Search (DFS)
+```python
+def dfs(node, graph, visited):
+    visited.add(node)
+    for neighbor in graph[node]:
+        if neighbor not in visited:
+            dfs(neighbor, graph, visited)
+```
+
+### Sorting
+```python
+# Built-in sort (Timsort, O(n log n))
+lst.sort()                   # In-place ascending
+lst.sort(reverse=True)       # In-place descending
+sorted_lst = sorted(lst)     # New sorted list
+
+# Example: using sort with a key
+lst = ['apple', 'banana', 'cherry']
+lst.sort(key=len)            # Sort by string length
 ```
 
 ## Common Patterns
+
+### List Comprehensions
+```python
+# Creating a list of squares
+squares = [x * x for x in lst]
+
+# Filtering elements
+filtered = [x for x in lst if x > 0]
+
+# Conditional expression inside comprehension
+conditional = [x if x > 0 else 0 for x in lst]
+```
+
+### Enumerate and Zip
+```python
+for index, value in enumerate(lst):
+    print(index, value)
+
+for x, y in zip(lst1, lst2):
+    print(x, y)
+```
+
+### Check Even or Odd Using Bitwise
+```python
+if n & 1:    # If result is 1, n is odd; if 0, n is even
+    # Odd
+else:
+    # Even
+
+# Bit shifts
+half = n >> 1     # Divide by 2
+double = n << 1   # Multiply by 2
+```
+
+### Common Utilities
+```python
+total = sum(lst)         # Sum of elements
+minimum = min(lst)       # Smallest element
+maximum = max(lst)       # Largest element
+```
 
 ### Two Pointers
 ```python
 left, right = 0, len(nums) - 1
 while left < right:
-    # Process elements
+    # Process elements nums[left] and nums[right]
     left += 1
     right -= 1
 ```
@@ -135,9 +194,10 @@ while left < right:
 window = {}
 left = curr_sum = 0
 for right in range(len(nums)):
-    # Add right element to window
-    # Process window
+    # Add nums[right] to window or sum
+    # Process window constraints
     while condition_not_met:
+        # Remove nums[left] from window or sum
         left += 1
 ```
 
@@ -145,7 +205,7 @@ for right in range(len(nums)):
 ```python
 left, right = 0, len(nums) - 1
 while left <= right:
-    mid = left + (right - left) // 2
+    mid = left + (right - left) // 2  # Prevents overflow
     if nums[mid] == target:
         return mid
     elif nums[mid] < target:
@@ -154,11 +214,85 @@ while left <= right:
         right = mid - 1
 ```
 
+## Useful Tricks
+
+### String Operations
+```python
+s = "hello world"
+s = s.strip()             # Remove whitespace
+s = s.lower()             # Convert to lowercase
+joined = ''.join(lst)     # Join list elements into string
+rev = s[::-1]             # Reverse string
+ascii_val = ord('a')      # Get ASCII value of character
+```
+
+### Bit Operations
+```python
+# Check odd or even
+n & 1                    # 1 if odd, 0 if even
+
+# Shifts
+half = n >> 1            # Divide by 2
+double = n << 1          # Multiply by 2
+```
+
 ## Tips & Best Practices
 - Use `Counter` for frequency counting.
 - Prefer `deque` over `list` for queue operations.
-- Binary search: `left + (right - left) // 2` prevents overflow.
+- Binary search: use `mid = left + (right - left) // 2` to prevent overflow.
 - Sorting complexity: O(n log n).
-- Hash map/set operations: O(1).
+- Hash map/set operations: O(1) average time.
 - Heap push/pop: O(log n).
-- Sliding window and two pointers: O(n).
+- Sliding window and two pointers techniques: O(n).
+
+
+
+## Time Complexities (Worst Case) for Common DSA Operations
+
+### List / Array
+- **Access by index** (`lst[i]`): O(1)
+- **Append at end** (`lst.append(x)`): O(1) amortized (worst-case O(n) when resizing)
+- **Pop from end** (`lst.pop()`): O(1)
+- **Insert / Delete at arbitrary index** (`lst.insert(i, x)` or `del lst[i]`): O(n)
+- **Search (linear)** (`x in lst`): O(n)
+
+### Dictionary (Hash Map)
+- **Lookup / Membership** (`d[key]`, `key in d`): O(n)
+- **Insert / Update** (`d[key] = value`): O(n)
+- **Delete** (`del d[key]`): O(n)
+
+*(Average-case is O(1); worst-case due to hash collisions is O(n).)*
+
+### Set (Hash Set)
+- **Insert** (`s.add(x)`): O(n)
+- **Lookup / Membership** (`x in s`): O(n)
+- **Delete** (`s.remove(x)` / `s.discard(x)`): O(n)
+
+*(Average-case is O(1); worst-case due to hash collisions is O(n).)*
+
+### Deque (`collections.deque`)
+- **Append / Appendleft** (`q.append(x)`, `q.appendleft(x)`): O(1)
+- **Pop / Popleft** (`q.pop()`, `q.popleft()`): O(1)
+- **Indexing by position** (`q[i]`): O(n)
+
+### Heap (`heapq`)
+- **Push** (`heapq.heappush(heap, x)`): O(log n)
+- **Pop (remove min)** (`heapq.heappop(heap)`): O(log n)
+- **Heapify** (`heapq.heapify(lst)`): O(n)
+- **Peek min** (`heap[0]`): O(1)
+
+### Sorting
+- **Built-in sort** (`lst.sort()` / `sorted(lst)`): O(n log n)
+
+### Search Patterns
+- **Binary Search (on sorted array)**: O(log n)
+- **BFS / DFS Traversal (on graph)**: O(V + E)  
+  *(V = number of vertices, E = number of edges)*
+
+### Common Utility Functions
+- **Length** (`len(obj)`): O(1)  
+- **Min / Max** (`min(obj)` / `max(obj)`): O(n)  
+- **Sum** (`sum(lst)`): O(n)  
+- **All / Any** (`all(iterable)` / `any(iterable)`): O(n)  
+- **Zip** (`zip(lst1, lst2)`): O(min(n₁, n₂))
+
