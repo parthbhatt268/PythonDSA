@@ -32,30 +32,12 @@ seen = set()
 unique_lst = [x for x in lst if x not in seen and not seen.add(x)]
 ```
 
-### Deque (Double-Ended Queue)
+### Set
 ```python
-from collections import deque
-
-q = deque()
-q.append(x)                  # Enqueue at right
-x = q.popleft()              # Dequeue from left
-q.appendleft(x)              # Enqueue at left
-x = q.pop()                  # Dequeue from right
-```
-
-### Heap (Min-Heap / Priority Queue)
-```python
-import heapq
-
-h = []
-heapq.heappush(h, x)         # Push item onto heap (O(log n))
-x = heapq.heappop(h)         # Pop smallest item (O(log n))
-heapq.heapify(lst)           # Transform list into a heap (O(n))
-min_item = h[0]              # Peek at smallest element (O(1))
-
-# For Max-Heap using negation
-heapq.heappush(h, -item)
-max_item = -heapq.heappop(h)
+s = set()
+s.add(x)         # Add element
+s.remove(x)      # Remove element
+exists = x in s  # Check membership
 ```
 
 ### Dictionary (Hash Map)
@@ -79,12 +61,30 @@ nums = [1, 2, 2, 3, 3, 3]
 count = Counter(nums)         # Counter({3: 3, 2: 2, 1: 1})
 ```
 
-### Set
+### Heap (Min-Heap / Priority Queue)
 ```python
-s = set()
-s.add(x)         # Add element
-s.remove(x)      # Remove element
-exists = x in s  # Check membership
+import heapq
+
+h = []
+heapq.heappush(h, x)         # Push item onto heap (O(log n))
+x = heapq.heappop(h)         # Pop smallest item (O(log n))
+heapq.heapify(lst)           # Transform list into a heap (O(n))
+min_item = h[0]              # Peek at smallest element (O(1))
+
+# For Max-Heap using negation
+heapq.heappush(h, -item)
+max_item = -heapq.heappop(h)
+```
+
+### Deque (Double-Ended Queue)
+```python
+from collections import deque
+
+q = deque()
+q.append(x)                  # Enqueue at right
+x = q.popleft()              # Dequeue from left
+x = q.pop()                  # Dequeue from right
+q.appendleft(x)              # Enqueue at left
 ```
 
 ### Linked List Node
@@ -138,6 +138,37 @@ lst = ['apple', 'banana', 'cherry']
 lst.sort(key=len)            # Sort by string length
 ```
 
+```python
+# Suppose we have a list of words:
+words = ['apple', 'banana', 'cherry', 'date']
+
+# We want to sort them by their last letter.
+# The lambda takes each string s and returns s[-1]:
+words.sort(key=lambda s: s[-1])
+
+print(words)
+# Output: ['banana', 'apple', 'date', 'cherry']
+# Because:
+#   'banana' ends with 'a'
+#   'apple' ends with 'e'
+#   'date'   ends with 'e'
+#   'cherry' ends with 'y'
+# Alphabetically: 'a' < 'e' < 'y', and ties stay in original order.
+
+nums = [70, 1727, 507, 777, 123]
+nums.sort(key=lambda n: str(n).count('7'))
+print(nums)
+# Output: [123, 70, 507, 1727, 777]
+# Because:
+#   '123'  has 0 sevens
+#   '70'   has 1 seven
+#   '507'  has 1 seven
+#   '1727' has 2 sevens
+#   '777'  has 3 sevens
+
+LAMBDA is like ..for eveery s return s[-1] #menaing last char AMAZING
+
+```
 ## Common Patterns
 
 ### List Comprehensions
