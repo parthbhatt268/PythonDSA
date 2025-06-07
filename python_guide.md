@@ -74,7 +74,12 @@ min_item = h[0]              # Peek at smallest element (O(1))
 # For Max-Heap using negation
 heapq.heappush(h, -item)
 max_item = -heapq.heappop(h)
+
+#read about this -
+top3 = heapq.nlargest(3, best.values())
+
 ```
+
 
 ### Deque (Double-Ended Queue)
 ```python
@@ -275,6 +280,14 @@ double = n << 1          # Multiply by 2
 - Hash map/set operations: O(1) average time.
 - Heap push/pop: O(log n).
 - Sliding window and two pointers techniques: O(n).
+
+
+# XOR
+- when both are different 1 and if same then 0
+- 2 ^ 3 ===> '01' ^ '11' ===> '01'
+- 2 ^ 2 ===> '01' ^ '01' (all bit same) ==> hence zero
+- 0 ^ 2 ===> answer is '01' (2)
+
 
 
 
