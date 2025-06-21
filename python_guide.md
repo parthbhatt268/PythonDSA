@@ -17,7 +17,7 @@ lst.extend([5, 6])           # Extend with another list
 first_element = lst[0]
 last_element = lst[-1]
 sub_list = lst[1:3]          # Elements at indices 1 and 2
-rev_list = lst[::-1]         # Reverse list
+rev_list = lst[::-1]         # Reverse a list
 
 # Common operations
 lst.sort()                   # Sort in ascending order
