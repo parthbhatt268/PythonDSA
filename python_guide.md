@@ -3,6 +3,7 @@
 ## Data Structures
 
 ### List
+
 ```python
 # Creating and modifying a list
 lst = [1, 2, 3]
@@ -20,9 +21,9 @@ sub_list = lst[1:3]          # Elements at indices 1 and 2
 rev_list = lst[::-1]         # Reverse a list
 
 # Common operations
-lst.sort()                   # Sort in ascending order
+lst.sort()                   # Sort in ascending order # In place sorting
 lst.sort(reverse=True)       # Sort in descending order
-sorted_lst = sorted(lst)     # Return a new sorted list
+sorted_lst = sorted(lst)     # Return a new sorted list # Creates a new sorted array
 length = len(lst)            # Get number of items
 count = lst.count(2)         # Count occurrences of 2
 index = lst.index(3)         # Find first index of 3
@@ -33,6 +34,7 @@ unique_lst = [x for x in lst if x not in seen and not seen.add(x)]
 ```
 
 ### Set
+
 ```python
 s = set()
 s.add(x)         # Add element
@@ -41,6 +43,7 @@ exists = x in s  # Check membership
 ```
 
 ### Dictionary (Hash Map)
+
 ```python
 d = {'key': value}           # Create with key-value pairs
 d = {}                        # Empty dictionary
@@ -62,6 +65,7 @@ count = Counter(nums)         # Counter({3: 3, 2: 2, 1: 1})
 ```
 
 ### Heap (Min-Heap / Priority Queue)
+
 ```python
 import heapq
 
@@ -80,8 +84,8 @@ top3 = heapq.nlargest(3, best.values())
 
 ```
 
-
 ### Deque (Double-Ended Queue)
+
 ```python
 from collections import deque
 
@@ -93,6 +97,7 @@ q.appendleft(x)              # Enqueue at left
 ```
 
 ### Linked List Node
+
 ```python
 class ListNode:
     def __init__(self, val=0, next=None):
@@ -108,6 +113,7 @@ node1.next = node2
 ## Algorithms
 
 ### Breadth-First Search (BFS)
+
 ```python
 from collections import deque
 
@@ -123,6 +129,7 @@ def bfs(start, graph):
 ```
 
 ### Depth-First Search (DFS)
+
 ```python
 def dfs(node, graph, visited):
     visited.add(node)
@@ -132,6 +139,7 @@ def dfs(node, graph, visited):
 ```
 
 ### Sorting
+
 ```python
 # Built-in sort (Timsort, O(n log n))
 lst.sort()                   # In-place ascending
@@ -174,9 +182,11 @@ print(nums)
 LAMBDA is like ..for eveery s return s[-1] #menaing last char AMAZING
 
 ```
+
 ## Common Patterns
 
 ### List Comprehensions
+
 ```python
 # Creating a list of squares
 squares = [x * x for x in lst]
@@ -189,6 +199,7 @@ conditional = [x if x > 0 else 0 for x in lst]
 ```
 
 ### Enumerate and Zip
+
 ```python
 for index, value in enumerate(lst):
     print(index, value)
@@ -198,6 +209,7 @@ for x, y in zip(lst1, lst2):
 ```
 
 ### Check Even or Odd Using Bitwise
+
 ```python
 if n & 1:    # If result is 1, n is odd; if 0, n is even
     # Odd
@@ -210,6 +222,7 @@ double = n << 1   # Multiply by 2
 ```
 
 ### Common Utilities
+
 ```python
 total = sum(lst)         # Sum of elements
 minimum = min(lst)       # Smallest element
@@ -217,6 +230,7 @@ maximum = max(lst)       # Largest element
 ```
 
 ### Two Pointers
+
 ```python
 left, right = 0, len(nums) - 1
 while left < right:
@@ -226,6 +240,7 @@ while left < right:
 ```
 
 ### Sliding Window
+
 ```python
 window = {}
 left = curr_sum = 0
@@ -238,6 +253,7 @@ for right in range(len(nums)):
 ```
 
 ### Binary Search
+
 ```python
 left, right = 0, len(nums) - 1
 while left <= right:
@@ -253,6 +269,7 @@ while left <= right:
 ## Useful Tricks
 
 ### String Operations
+
 ```python
 s = "hello world"
 s = s.strip()             # Remove whitespace
@@ -263,6 +280,7 @@ ascii_val = ord('a')      # Get ASCII value of character
 ```
 
 ### Bit Operations
+
 ```python
 # Check odd or even
 n & 1                    # 1 if odd, 0 if even
@@ -273,6 +291,7 @@ double = n << 1          # Multiply by 2
 ```
 
 ## Tips & Best Practices
+
 - Use `Counter` for frequency counting.
 - Prefer `deque` over `list` for queue operations.
 - Binary search: use `mid = left + (right - left) // 2` to prevent overflow.
@@ -281,19 +300,17 @@ double = n << 1          # Multiply by 2
 - Heap push/pop: O(log n).
 - Sliding window and two pointers techniques: O(n).
 
-
 # XOR
+
 - when both are different 1 and if same then 0
 - 2 ^ 3 ===> '01' ^ '11' ===> '01'
 - 2 ^ 2 ===> '01' ^ '01' (all bit same) ==> hence zero
 - 0 ^ 2 ===> answer is '01' (2)
 
-
-
-
 ## Time Complexities (Worst Case) for Common DSA Operations
 
 ### List / Array
+
 - **Access by index** (`lst[i]`): O(1)
 - **Append at end** (`lst.append(x)`): O(1) amortized (worst-case O(n) when resizing)
 - **Pop from end** (`lst.pop()`): O(1)
@@ -301,42 +318,48 @@ double = n << 1          # Multiply by 2
 - **Search (linear)** (`x in lst`): O(n)
 
 ### Dictionary (Hash Map)
+
 - **Lookup / Membership** (`d[key]`, `key in d`): O(n)
 - **Insert / Update** (`d[key] = value`): O(n)
 - **Delete** (`del d[key]`): O(n)
 
-*(Average-case is O(1); worst-case due to hash collisions is O(n).)*
+_(Average-case is O(1); worst-case due to hash collisions is O(n).)_
 
 ### Set (Hash Set)
+
 - **Insert** (`s.add(x)`): O(n)
 - **Lookup / Membership** (`x in s`): O(n)
 - **Delete** (`s.remove(x)` / `s.discard(x)`): O(n)
 
-*(Average-case is O(1); worst-case due to hash collisions is O(n).)*
+_(Average-case is O(1); worst-case due to hash collisions is O(n).)_
 
 ### Deque (`collections.deque`)
+
 - **Append / Appendleft** (`q.append(x)`, `q.appendleft(x)`): O(1)
 - **Pop / Popleft** (`q.pop()`, `q.popleft()`): O(1)
 - **Indexing by position** (`q[i]`): O(n)
 
 ### Heap (`heapq`)
+
 - **Push** (`heapq.heappush(heap, x)`): O(log n)
 - **Pop (remove min)** (`heapq.heappop(heap)`): O(log n)
 - **Heapify** (`heapq.heapify(lst)`): O(n)
 - **Peek min** (`heap[0]`): O(1)
 
 ### Sorting
+
 - **Built-in sort** (`lst.sort()` / `sorted(lst)`): O(n log n)
 
 ### Search Patterns
+
 - **Binary Search (on sorted array)**: O(log n)
 - **BFS / DFS Traversal (on graph)**: O(V + E)  
-  *(V = number of vertices, E = number of edges)*
+  _(V = number of vertices, E = number of edges)_
 
 ### Common Utility Functions
-- **Length** (`len(obj)`): O(1)  
-- **Min / Max** (`min(obj)` / `max(obj)`): O(n)  
-- **Sum** (`sum(lst)`): O(n)  
-- **All / Any** (`all(iterable)` / `any(iterable)`): O(n)  
-- **Zip** (`zip(lst1, lst2)`): O(min(n₁, n₂))
 
+- **Length** (`len(obj)`): O(1)
+- **Min / Max** (`min(obj)` / `max(obj)`): O(n)
+- **Sum** (`sum(lst)`): O(n)
+- **All / Any** (`all(iterable)` / `any(iterable)`): O(n)
+- **Zip** (`zip(lst1, lst2)`): O(min(n₁, n₂))
