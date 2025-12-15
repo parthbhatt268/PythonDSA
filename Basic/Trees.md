@@ -88,6 +88,20 @@ One node spreads to all its neighbors, then those neighbors spread to their neig
 - BFS explores nodes **level by level**.
 - It is commonly used to find the **shortest path in an unweighted graph**.
 
+### Application of BFS
+
+1. Shortest Path in an
+2. unweighted graph
+3. Cycle Detection
+4. Crawlers in Search Engine
+5. Social Networking Search
+6. In Garbage Collection
+7. Broadcasting
+
+### Sample Question
+
+1. BFS of Graph (Solved soln in folder)
+
 ---
 
 ### **Graph Representation**
@@ -108,6 +122,12 @@ One node spreads to all its neighbors, then those neighbors spread to their neig
    - In the **worst case** (complete graph), TC and SC approach `O(V^2)`.
 
 ![difference between adjacency matrix and adjacency list](image.png)
+
+### Question
+
+1. BFS Traversal in Graph
+2. DFS Traversal in Graph
+3. Cycle detection in Graph using BFS/DFS
 
 ---
 
