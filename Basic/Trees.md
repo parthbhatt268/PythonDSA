@@ -23,7 +23,7 @@ To avoid this, we use **bi-connected components** — effectively adding an **ex
 - **Backtracking (DFS)**
 - **Branch and Bound (BFS)**
 - **State space tree**
-- **Bounding function**
+- **Bounding function** (mostly used in BFS)
 
 Backtracking uses a **state-space diagram** (a tree-like structure) and is handy when we need **all possible ways** of something.
 
@@ -58,6 +58,35 @@ A **Hamiltonian cycle** is a cycle in a graph where you **visit every node once*
   - In a **directed** graph, you might not be able to go in the reverse direction, which can make it **disconnected**.
 - **Complete** graph — every node is connected to all other nodes
 - **Weighted**, **Unweighted** graph
+
+---
+
+## BFS (Breadth First Search) Traversal
+
+### Intuition
+
+**BFS is like spreading a virus 🦠**  
+One node spreads to all its neighbors, then those neighbors spread to their neighbors, and so on — **level by level**.
+
+---
+
+### Why We Use a Queue for BFS
+
+- BFS follows **First In, First Out (FIFO)**.
+
+### Steps
+
+1. Start from a node and mark it as visited.
+2. Add the node to the **queue**.
+3. Remove the **front element** from the queue.
+4. Visit all its **unvisited adjacent nodes**.
+5. Add those adjacent nodes to the **end of the queue**.
+6. Repeat until the **queue is empty**.
+
+### Key Property
+
+- BFS explores nodes **level by level**.
+- It is commonly used to find the **shortest path in an unweighted graph**.
 
 ---
 
