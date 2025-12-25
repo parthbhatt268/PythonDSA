@@ -267,22 +267,96 @@ If at the end, the answer does **not** include all nodes, that means:
 
 ---
 
-Cycle detetcion in ONLY Directed graph
+## Cycle Detection in a **Directed** Graph (Only Directed)
 
-exmaple is liek resourc1 can ask for resurce 2 and resource 2 can ask for resource 3 but reosuce 3 itlsef is wait for resource 1 to be free so here we ahve directed cyclid grpah
+Example (real-life style):  
+Resource 1 is waiting for Resource 2, Resource 2 is waiting for Resource 3, and Resource 3 is waiting for Resource 1.  
+That creates a **directed cycle**: **1 → 2 → 3 → 1**.
 
-here our logoc we used in cycle detectin in undirected grpah, where we simple said if the node you are currently checking is aldresy visted and if it is not the parent then we have foudn a cycle. here in diretced grpah that wont work because condiion you mentioend aboev like see current node is alreaydy visted and and not parent event in that casein directed grpah that wont be a cycle since direction woudld be miss matched.
+---
 
-so teh new logic is that we will remove the 1 from the vissed aray once we tracse back the same route
-if a node appear more than once in a path then we declare it cycle
+## Why the undirected logic doesn’t work here
 
-you can call it PATH or DFS STACK
+In an **undirected graph**, we said:
 
-Also to optimse the execution you can do one mroe thing like also have avisted arrya and then do simple thing like keep a array named visted of all the existing visted node and then the flow is simple we will first check if teh current node is not in the PATH and if taht is faslse then we check if the current node is already visted list then we simply then ignoreing cbecking that same path again because we already vissted that path and we didnt foudn beofre so we could probaly skip it again.this additoinal visted array will help us increase the efficenlty TC
+> “If a neighbor is already visited and it’s not the parent, then cycle exists.”
 
-Very Imp there is other way to find cycle in directed groah as well
-so since we knwo that we can only apply topological sort on DAG uing kahn's algo that is BFS way.
-but if we apply kahn algo on a DCG dirceted cyclis graaph then it only be right since we will only get outut node in topiligical sorted way for tehnode wihch are not in the cylce in that grpah so you will see at teh edn teh result you get will have lesser node ans then actually node in the groaph
+That rule is **not valid for directed graphs**, because direction matters.
+
+In a directed graph, you might reach a node that was visited before, but that **doesn’t always mean a cycle**.  
+It could be a cross-edge pointing to a node that was already fully processed, and that’s fine.
+
+So we need a new rule.
+
+---
+
+## Correct logic for directed graphs (DFS Stack / Path)
+
+In a directed graph, a cycle exists if:
+
+✅ **A node appears more than once in the same DFS path.**
+
+That means: if during DFS, you find an edge to a node that is **already in the current recursion stack**, then cycle is present.
+
+This “current recursion stack” is called:
+
+- **PATH**, or
+- **DFS Stack**, or
+- **Recursion Stack**
+
+### Key idea
+
+- When you go deeper in DFS, mark the node as `inPath = true`
+- When you backtrack (return), set `inPath = false`  
+  (this is what you meant by “remove the 1 from the visited array once we trace back”)
+
+---
+
+## Optimized version (2 arrays)
+
+To make it faster, we usually keep **two arrays**:
+
+1. **visited[]**  
+   → means “this node is completely processed already”
+
+2. **inPath[]** (or `dfsStack[]`)  
+   → means “this node is currently in the DFS path”
+
+### Flow:
+
+When DFS reaches a node `u`:
+
+1. If `inPath[u] == true`  
+   → ✅ cycle found (because u appeared again in the same path)
+
+2. Else if `visited[u] == true`  
+   → skip it (we already checked this node’s paths before, no need to repeat)
+
+3. Else
+   - mark `visited[u] = true`
+   - mark `inPath[u] = true`
+   - DFS all neighbors
+   - after done, mark `inPath[u] = false` (backtracking step)
+
+This extra `visited[]` improves time complexity because you don’t re-check finished parts of the graph again.
+
+---
+
+## Another way (Kahn’s Algorithm / Topological Sort trick)
+
+We know:
+✅ Topological sorting works only for **DAG**.
+
+So if we run **Kahn’s Algorithm (BFS topological sort)** on a directed graph:
+
+- If the graph is a DAG → we will output **all nodes**
+- If the graph has a cycle → we will output **fewer nodes than total**
+
+Why fewer?  
+Because nodes inside the cycle never reach **in-degree = 0**, so they never enter the QUEUE.
+
+So:
+✅ **If result size < number of nodes THEN the cycle EXISTS**
 
 ---
 
