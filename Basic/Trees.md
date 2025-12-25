@@ -169,6 +169,8 @@ When you're at a node and checking one of its neighbors:
 
 ## Topological sorting
 
+Usecase: Where lets say process A has to be done beofre process B and process c has to be done bofre process B etc (like wirting html brofre csss and wirting css/html beofre writing JS)
+
 You only do **topological sorting** in a **DAG (Directed Acyclic Graph)**, because:
 
 - If the graph is **not directed**, you don’t have a clear “who comes before whom” direction.
