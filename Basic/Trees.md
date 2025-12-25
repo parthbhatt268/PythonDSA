@@ -169,6 +169,8 @@ When you're at a node and checking one of its neighbors:
 
 ## Topological sorting
 
+## 1. Using DFS
+
 Usecase: Where lets say process A has to be done beofre process B and process c has to be done bofre process B etc (like wirting html brofre csss and wirting css/html beofre writing JS)
 
 You only do **topological sorting** in a **DAG (Directed Acyclic Graph)**, because:
@@ -196,6 +198,72 @@ A simple way to think about solving topological sorting is this line:
 > **“A particular node will only go into the stack when all the nodes it depends on are already in the stack.”**
 
 And yes, we use a **stack** here because it’s one of the easiest ways to handle the ordering in these cases.
+
+## 2. Using BFS - Kahn’s Algorithm
+
+--> (BFS method for Topological Sorting)
+
+This is the **second way** to do topological sorting: using **BFS with Kahn’s Algorithm**.
+
+### Core idea
+
+We keep finding nodes that have **no parents** (meaning: **no incoming edges**).  
+We add those nodes to the answer, then “remove” them from the graph, and repeat.
+
+To do this properly, we need to understand one key term:
+
+- **Indegree** = number of **incoming edges** (how many parents a node has)
+- **Outdegree** = number of **outgoing edges** (how many children it points to)
+
+---
+
+### Step 1: Compute indegree for every node
+
+The easy way is:
+
+- Look at the **adjacency list**
+- For every edge `u -> v`, increment `indegree[v]` by 1
+
+So indegree is basically:  
+✅ “How many times this node is reachable as a _neighbor_ from others.”
+
+---
+
+### Step 2: Push all indegree = 0 nodes into a queue
+
+Since this is BFS, we use a **QUEUE**.
+
+- Put every node whose **indegree is 0** into the queue
+- These are the nodes with no parents, so they can safely come first
+
+---
+
+### Step 3: BFS process
+
+While the queue is not empty:
+
+1. Pop the front node `u`
+2. Add `u` to the **answer**
+3. For every neighbor `v` of `u`:
+   - Decrease `indegree[v]` by 1 (because we are “removing” the edge `u -> v`)
+   - If `indegree[v]` becomes 0, push `v` into the queue
+
+---
+
+### Why this works
+
+Each time a node’s indegree becomes 0, it means:
+✅ all of its parents have already been placed in the answer  
+so it’s now safe to place it next.
+
+---
+
+### Extra note (important)
+
+If at the end, the answer does **not** include all nodes, that means:
+❌ the graph had a **cycle**, so topological sorting is not possible.
+
+![alt text](image-1.png)
 
 ---
 
