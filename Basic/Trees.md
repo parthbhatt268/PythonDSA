@@ -360,7 +360,57 @@ So:
 
 ---
 
-Bipartite Graph - simple - algo - 2 coloring algorithm
+## Bipartite Graph (Simple Idea) — 2-Coloring Algorithm
+
+A **bipartite graph** is a graph where you can split all nodes into **two groups** such that:
+✅ every edge connects a node from Group 1 to a node from Group 2  
+(and **no edge** connects two nodes inside the same group)
+
+The easiest way to check bipartite is using the **2-coloring algorithm**.
+
+---
+
+## Key finding (Cycles rule)
+
+- If the graph contains an **odd-length cycle**, then ❌ it is **NOT bipartite**
+- If all cycles are **even-length** (or there are no cycles), then ✅ it **CAN be bipartite**
+
+Reason (simple):  
+In an odd cycle, when you alternate colors around the cycle, you eventually get forced to give the same color to two connected nodes.
+
+---
+
+## BFS-based 2-Coloring (most common)
+
+We mostly use **BFS** for this.
+
+### Setup
+
+- Keep a `color[]` array:
+  - `-1` = not colored yet
+  - `0` and `1` = the two colors (two sets)
+
+### Algorithm
+
+For every node (because the graph might be disconnected):
+
+1. If the node is not colored, assign it a color (say `0`) and push it into the queue.
+2. While queue is not empty:
+   - pop a node `u`
+   - for every neighbor `v`:
+     - if `v` is not colored → color it with the opposite color: `1 - color[u]`, and push to queue
+     - else if `color[v] == color[u]` → ❌ conflict → graph is **not bipartite**
+
+If BFS finishes without conflict, ✅ the graph is bipartite.
+
+---
+
+### Note
+
+This is basically the same BFS “level-by-level” logic:
+
+- nodes at alternating levels get alternating colors
+- odd cycle breaks that rule and causes a color clash
 
 ---
 
