@@ -360,6 +360,10 @@ So:
 
 ---
 
+Bipartite Graph - simple - algo - 2 coloring algorithm
+
+---
+
 # 🌲 **TREE**
 
 - For a tree with **n nodes**, there are **n−1 edges**; **no loops**.
