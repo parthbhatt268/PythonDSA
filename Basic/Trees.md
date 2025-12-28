@@ -412,6 +412,17 @@ This is basically the same BFS “level-by-level” logic:
 - nodes at alternating levels get alternating colors
 - odd cycle breaks that rule and causes a color clash
 
+USE case:
+![alt text](image-2.png)
+
+---
+
+Exmaple Graph question are
+
+1. Numebr of Island
+2. Covid spread (the hostipal one where 2 -> already covid, 1-> normal pateint, 0->no one in the room)
+3. Replace 0's with X's and rules was 0 should be surrounded by X from all side and tehen you return the result 2D array
+
 ---
 
 # 🌲 **TREE**
