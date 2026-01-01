@@ -2,7 +2,42 @@
 
 ## Data Structures
 
-### List
+```python
+# Core data structures (simple init examples)
+
+lst = []    # List (mutable, ordered)
+tup = ()    # Tuple (immutable, ordered)
+st = set()  # Set (mutable, unique items, unordered)
+dct = {}    # Dictionary / dict (mutable, key -> value)
+s = "ABC"   # String (immutable text)
+
+# Why strings are immutable:
+# - You cannot do: s.append(...), s.remove(...), or s[0] = 'X'
+# - If you "change" it, you actually create a NEW string object:
+s = "XYZ"   # reassigns the variable; doesn't mutate the old string
+
+# -----------------------------------------
+# Deque / Queue / Stack / Heap
+# -----------------------------------------
+
+from collections import deque
+from queue import SimpleQueue, LifoQueue
+import heapq
+
+dq = deque()       # Deque (DQ): fast add/remove both ends
+stack = []         # stack.append(x), stack.pop()
+
+lst = []           # Simple Min-Heap (heapq is min-heap)
+heapq.heapify(lst)
+
+lst = []           # Simple Max-Heap (heapq is max-heap) # Introduced in 3.14 version
+heapq.heapify_max(lst)
+# heapq.heappush(max_heap, -x)
+# x = -heapq.heappop(max_heap)
+
+```
+
+### List / Also Stack is simple a Python List
 
 ```python
 # Creating and modifying a list
@@ -39,7 +74,7 @@ unique_lst = [x for x in lst if x not in seen and not seen.add(x)]
 s = set()
 s.add(x)         # Add element
 s.remove(x)      # Remove element
-exists = x in s  # Check membership
+exists = x in s  # Check membership # in Javascript we use 'has' 'x.has(s)
 ```
 
 ### Dictionary (Hash Map)
@@ -70,12 +105,25 @@ count = Counter(nums)         # Counter({3: 3, 2: 2, 1: 1})
 import heapq
 
 h = []
-heapq.heappush(h, x)         # Push item onto heap (O(log n))
-x = heapq.heappop(h)         # Pop smallest item (O(log n))
-heapq.heapify(lst)           # Transform list into a heap (O(n))
-min_item = h[0]              # Peek at smallest element (O(1))
+heapq.heapify(lst)     # Transform list into a heap (O(n))
+heapq.heappush(h, x)   # Push item onto heap (O(log n))
+x = heapq.heappop(h)   # Pop smallest item (O(log n)) # So it pops smallest elemt and move rest ahead hence O(log n) time
+min_peek = h[0]        # ONLY PEEKS at smallest element (O(1))
 
-# For Max-Heap using negation
+# Handy combos (often clearer / faster than separate calls)
+# heapq.heappushpop(h, x)   # push x, then pop smallest (O(log n))
+# heapq.heapreplace(h, x)   # pop smallest, then push x (O(log n))
+
+# -------------------------
+# Max-Heap options
+# -------------------------
+# (Python 3.14+): native max-heap helpers
+heapq.heapify_max(h)      # in-place -> max-heap (O(n))
+heapq.heappush_max(h, x)  # push (O(log n))
+largest = heapq.heappop_max(h)  # pop + remove largest (O(log n))
+largest_peek = h[0]       # peek largest ONLY (O(1))
+
+# For Max-Heap using negation works for all python version
 heapq.heappush(h, -item)
 max_item = -heapq.heappop(h)
 
@@ -114,6 +162,8 @@ node1.next = node2
 
 ### Breadth-First Search (BFS)
 
+===>BELOW GRAPH means ADJCENCY LIST
+
 ```python
 from collections import deque
 
@@ -129,6 +179,8 @@ def bfs(start, graph):
 ```
 
 ### Depth-First Search (DFS)
+
+===>BELOW GRAPH means ADJCENCY LIST
 
 ```python
 def dfs(node, graph, visited):
