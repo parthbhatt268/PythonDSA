@@ -24,7 +24,7 @@ from collections import deque
 from queue import SimpleQueue, LifoQueue
 import heapq
 
-dq = deque()       # Deque (DQ): fast add/remove both ends
+dq = deque()       # Deque (DQ): fast append/pop both ends
 stack = []         # stack.append(x), stack.pop()
 
 lst = []           # Simple Min-Heap (heapq is min-heap)
