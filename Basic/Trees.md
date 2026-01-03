@@ -420,7 +420,7 @@ USE case:
 Exmaple Graph question are
 
 1. Numebr of Island
-2. Covid spread (the hostipal one where 2 -> already covid, 1-> normal pateint, 0->no one in the room)
+2. Covid spread (the hostipal one where 2 -> already covid, 1-> normal pateint, 0->no one in the room) / Similar question Rotten Oranges
 3. Replace 0's with X's and rules was 0 should be surrounded by X from all side and tehen you return the result 2D array
 
 ---
