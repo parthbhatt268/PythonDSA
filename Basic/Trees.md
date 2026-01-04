@@ -425,6 +425,37 @@ Exmaple Graph question are
 
 ---
 
+# Shortest Path (Beginner Notes)
+
+- In **shortest path** questions, we often use **BFS** when the graph is **unweighted** (or all edges have the same cost).
+- We usually **avoid DFS** for shortest path because DFS may go deep down a long route first, exploring lots of unnecessary nodes before finding the best answer.
+
+### When BFS works well
+
+- **Undirected / Directed unweighted graph** (each edge cost is the same, usually treated as `1`)
+- **BFS guarantees the shortest path** (fewest edges) because it explores in **layers** (distance `0`, then `1`, then `2`, ...).
+
+### When BFS does NOT work
+
+- **Weighted graphs** (edges have different costs)
+- BFS explores by **number of edges**, not by **total weight**.
+- So BFS might reach a node using a **heavier** path first, mark it visited, and then **block** a later path that is **cheaper** (lower total weight) but uses more edges.
+
+### What to use instead for weighted graphs
+
+- **Dijkstra’s Algorithm**: for graphs with **non-negative** edge weights
+  - Key idea: always expand the node with the **smallest known distance** next (using a priority queue).
+  - Instead of a simple `visited`, you keep a `dist[]` array:
+    - If you find a cheaper way to reach a node, update `dist[node]` and continue.
+- **Bellman–Ford**: if the graph can have **negative** edge weights (slower, but handles negatives).
+
+### About “DFS for weighted shortest path”
+
+- You can try DFS, but you must avoid repeating too much work. That usually means:
+  - Track the **current total cost** along the path, and
+  - Only continue exploring from a node if the current cost is **smaller** than the best cost you’ve seen for that node so far.
+- This idea is basically moving toward what Dijkstra does (but Dijkstra is the standard, efficient solution).
+
 # 🌲 **TREE**
 
 - For a tree with **n nodes**, there are **n−1 edges**; **no loops**.
