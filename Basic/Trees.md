@@ -508,7 +508,10 @@ Using a min-heap speeds up Dijkstra’s algorithm, but it usually uses more memo
 >
 > - If your priority queue keeps **at most `V` vertices** (e.g., using _decrease-key_), then `N ≈ V` → `O(E log V)`.
 > - If your implementation **allows duplicates** (common in practice: push a new `(dist, node)` instead of decrease-key), the heap can grow to `N ≈ E` → `O(E log E)`.  
->   Also, since `E ≤ V²`, `log E` and `log V` differ only by a small constant factor in many cases.
+>   Also, since `E ≤ V²`, `log E` and `log V` differ only by a small constant factor in many cases (Solve using maths take log on both side s you will eventually left with ElogV).
+
+- Conclusion is that if there is dense graph than we use ARRAY, if we have sparse graph then we use Heap/priority queue
+- Drawback is simple it wont work with negative weights
 
 ![alt text](image-3.png)
 
