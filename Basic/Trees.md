@@ -475,6 +475,43 @@ In simple terms: for each vertex, check every outgoing edge. Take the current di
    ↳ if ( dist[node] + weight < dist[neighbour] )
    dist[neighbour] = dist[node] + weight;
 
+### Another thing to remember is
+
+### Implementation choices for Dijkstra (Array vs Min-Heap / Priority Queue)
+
+In Dijkstra’s algorithm, we must **repeatedly pick the unexplored vertex with the smallest distance**.  
+If we do this using a simple **array**, each “find-min” step can be expensive, because we may need to scan all unexplored vertices every time.
+
+So, a common improvement is to use a **Min-Heap / Priority Queue** to always get the smallest-distance vertex faster.
+
+#### Trade-offs
+
+**1) Using an Array**
+
+- **Space Complexity (SC):** `O(V)`
+- **Time Complexity (TC):** Slower overall because selecting the minimum distance vertex requires scanning.
+
+**2) Using a Min-Heap / Priority Queue**
+
+- **Time Complexity (TC):** Improved, because:
+  - `extract-min` and `insert` are faster with a heap.
+  - Overall complexity is typically written as `O(E log E)` (often also expressed as `O(E log V)`).
+- **Space Complexity (SC):** Increases to about `O(V + E)` because:
+  - The priority queue can contain **repeated entries for the same node** (due to multiple relaxations),
+  - So the heap size can grow close to the number of edges in the worst case.
+
+✅ **Summary:**  
+Using a min-heap speeds up Dijkstra’s algorithm, but it usually uses more memory than the array-based approach.
+
+> **Note (why `log E` or `log V`?):**  
+> The `log` comes from heap operations (`push`/`pop`) which take `O(log N)` where `N` is the heap size.
+>
+> - If your priority queue keeps **at most `V` vertices** (e.g., using _decrease-key_), then `N ≈ V` → `O(E log V)`.
+> - If your implementation **allows duplicates** (common in practice: push a new `(dist, node)` instead of decrease-key), the heap can grow to `N ≈ E` → `O(E log E)`.  
+>   Also, since `E ≤ V²`, `log E` and `log V` differ only by a small constant factor in many cases.
+
+![alt text](image-3.png)
+
 # 🌲 **TREE**
 
 - For a tree with **n nodes**, there are **n−1 edges**; **no loops**.
