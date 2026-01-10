@@ -456,6 +456,25 @@ Exmaple Graph question are
   - Only continue exploring from a node if the current cost is **smaller** than the best cost you’ve seen for that node so far.
 - This idea is basically moving toward what Dijkstra does (but Dijkstra is the standard, efficient solution).
 
+### KIND if problems solved
+
+- Undirected graph not weigthed
+- Undirected Cyclic groah - weighted
+- Directed Ayalcis Graph DAG - topo sorted
+
+## Dijkstra's Algorith - Undirected cyclic weighted grpah
+
+In simple terms: for each vertex, check every outgoing edge. Take the current distance to that node + the edge weight; if that total is smaller than the distance stored at the neighbor (which may be ∞ at first), update/replace it. To avoid extra work and cycles, keep an explored/visited array and skip vertices that are already visited.
+
+1. Select the vertex which is not explored yet
+   and it's dist is minum among all the
+   unexplored vertexes.
+
+2. Relax the edges.
+   ↳ Look at your all the unexplored neighbours
+   ↳ if ( dist[node] + weight < dist[neighbour] )
+   dist[neighbour] = dist[node] + weight;
+
 # 🌲 **TREE**
 
 - For a tree with **n nodes**, there are **n−1 edges**; **no loops**.
