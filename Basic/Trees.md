@@ -462,7 +462,7 @@ Exmaple Graph question are
 - Undirected Cyclic groah - weighted
 - Directed Ayalcis Graph DAG - topo sorted
 
-## Dijkstra's Algorith - Undirected cyclic weighted grpah
+## Dijkstra's Algorith - Undirected cyclic weighted grpah TC - O(v^2) SC - O(v)
 
 In simple terms: for each vertex, check every outgoing edge. Take the current distance to that node + the edge weight; if that total is smaller than the distance stored at the neighbor (which may be ∞ at first), update/replace it. To avoid extra work and cycles, keep an explored/visited array and skip vertices that are already visited.
 
