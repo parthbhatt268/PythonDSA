@@ -515,6 +515,14 @@ Using a min-heap speeds up Dijkstra’s algorithm, but it usually uses more memo
 
 ![alt text](image-3.png)
 
+## Shortest Path cannot be foudn in grpah which has negative cycle boz in that case you will keep on roaming and eveyr time you will get smaller route.
+
+Negative cycle means in a cycle the weight of the cycle added together is negative
+
+# Bellman - ford algorithm Only works will directed Graph
+
+it works for negative weights
+
 # 🌲 **TREE**
 
 - For a tree with **n nodes**, there are **n−1 edges**; **no loops**.
