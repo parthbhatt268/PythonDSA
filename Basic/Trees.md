@@ -110,7 +110,6 @@ One node spreads to all its neighbors, then those neighbors spread to their neig
 
 1. **Adjacency Matrix**  
    Used when the graph is **dense** (close to complete).
-
    - **Time Complexity:** `O(V^2)`
    - **Space Complexity:** `O(V^2)`
    - Drawback: Uses extra space to represent **no edge** (e.g., storing `0`).
@@ -520,6 +519,10 @@ Using a min-heap speeds up Dijkstra’s algorithm, but it usually uses more memo
 Negative cycle means in a cycle the weight of the cycle added together is negative
 
 # Bellman - ford algorithm Only works will directed Graph
+
+- Can help you with negative weights
+- Can help you detect negative cycle as well
+- BUT can only be used in directed graph
 
 it works for negative weights
 
