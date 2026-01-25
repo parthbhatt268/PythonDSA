@@ -524,7 +524,168 @@ Negative cycle means in a cycle the weight of the cycle added together is negati
 - Can help you detect negative cycle as well
 - BUT can only be used in directed graph
 
+# Bellman–Ford Algorithm — Concise Notes
+
+## Purpose
+
+- Computes **single-source shortest paths** in a weighted graph.
+- Works even if some edges have **negative weights**.
+- Detects **negative-weight cycles** (reachable from the source).
+
+---
+
+## Key Terms
+
+### Relaxation
+
+For an edge \( (u \rightarrow v) \) with weight \( w(u,v) \):
+
+- If  
+  \[
+  dist[u] + w(u,v) < dist[v]
+  \]
+  then update  
+  \[
+  dist[v] \leftarrow dist[u] + w(u,v)
+  \]
+
+This update is called **relaxing the edge**.
+
+---
+
+## Steps / Rules (Bellman–Ford)
+
+### Step 1: Relax all edges \(V - 1\) times
+
+- Let \(V\) = number of vertices.
+- Repeat **\(V - 1\)** rounds:
+  - For **every edge** \( (u \rightarrow v) \), apply the relaxation rule.
+
+**Why \(V - 1\) times?**
+
+- Any shortest path (without cycles) can have at most **\(V - 1\)** edges.
+
+---
+
+### Step 2: Relax all edges one more time (cycle detection)
+
+- Do **one additional pass** over all edges:
+  - If **any distance value changes**, then a **negative-weight cycle exists** (reachable from the source).
+  - If **no distance changes**, then the distances are the **shortest paths from the source**.
+
+---
+
+## Decision Summary
+
+- **Change in Step 2** → **Negative-weight cycle present**
+- **No change in Step 2** → **Shortest paths found**
+
 it works for negative weights
+
+Dijkstra - uses Vertex for algorithm
+Bellamon ford - uses Edeg for algorithm
+
+Shortest Path is not possible in Undirected Negative grpah as there will be an negative cycle present
+
+Last 10 min is worth watching - https://www.youtube.com/watch?v=6DCnv6Q3iwk&t=1494s
+
+## Floyd Warshall algorithm - used on directed, postive or negative both, and to find mutlti source shortest distance - ALSO DIAGONAL ELEMNT WILL MMOSTLY BE ZERO, IF IT IS NEGATIVE THEN NEGATIVE CYCLE IS PRESENT
+
+## Main Purpose
+
+- Computes **all-pairs shortest paths**: shortest distance from **every node to every other node**
+  - e.g., \(1 \to 2\), \(1 \to 3\), \(2 \to 5\), etc., for all pairs.
+
+---
+
+## Weight / Graph Notes
+
+- Works with **positive and negative edge weights**.
+- Commonly used on **directed graphs** as well as undirected graphs (it works for both).
+- Not valid for shortest paths if a **negative-weight cycle** exists (distances become undefined).
+
+---
+
+## Core Idea (Intermediate Vertex Method)
+
+- Repeatedly improve distances by allowing paths that go through an intermediate node.
+- Each vertex becomes the **intermediate** once.
+
+For vertices \(i, j, k\):
+
+- Check whether going from \(i\) to \(j\) via \(k\) is shorter:
+  \[
+  dist[i][j] \leftarrow \min\big(dist[i][j],\; dist[i][k] + dist[k][j]\big)
+  \]
+
+---
+
+## Steps / Rules (Floyd–Warshall)
+
+1. **Initialize distance matrix `dist`**
+   - `dist[i][j]` = edge weight from \(i\) to \(j\) if edge exists, else \(+\infty\)
+   - `dist[i][i] = 0` for all \(i\)
+
+2. **Run intermediate-node loops**
+   - For each node \(k\) (as the intermediate)
+     - For every pair \((i, j)\), update:
+       \[
+       dist[i][j] = \min(dist[i][j],\; dist[i][k] + dist[k][j])
+       \]
+   - Intuition:
+     - First allow paths that use node 1 as intermediate, then node 2, then node 3, etc.
+
+---
+
+## Detecting Negative Cycles
+
+- After running the algorithm:
+  - If **any diagonal entry becomes negative**, i.e.,
+    \[
+    dist[i][i] < 0
+    \]
+    then the graph contains a **negative-weight cycle** (reachable from \(i\)).
+- If a negative cycle exists, **shortest paths are not well-defined** for affected vertices.
+
+---
+
+## Complexity
+
+- **Time Complexity:** \(O(V^3)\)
+- **Space Complexity:** \(O(V^2)\) for the distance matrix
+  - Updates are often done **in-place** on the same matrix, but the matrix itself still requires \(V^2\) space.
+
+## Time-complexity comparison (bullet-style, not a table)
+
+### Dijkstra’s Algorithm (single-source)
+
+- **Sparse graph:** \(O((V+E)\log V) \approx O(E\log V)\)
+- **Dense graph (array / matrix style):** \(O(V^2)\)
+- **All-pairs via repeating Dijkstra:** \(O\big(V \cdot (V+E)\log V\big)\)
+  - If \(E=\Theta(V^2)\): becomes \(O(V^3 \log V)\)
+
+### Bellman–Ford (single-source)
+
+- **General:** \(O(VE)\)
+  - If \(E=\Theta(V^2)\) (dense): becomes \(O(V^3)\)
+- **All-pairs via repeating Bellman–Ford:** \(O(V^2E)\)
+  - If \(E=\Theta(V^2)\): becomes \(O(V^4)\)
+
+### Floyd–Warshall (all-pairs)
+
+marshall - did the work on Transitive law
+floy did teh work on adding and update teh weight on the edges
+
+- **Always:** \(O(V^3)\)
+- Does **all-pairs shortest paths in one run**, which is why it can outperform “repeat single-source” approaches on dense graphs.
+
+---
+
+## Practical rule of thumb
+
+- **Need single-source shortest paths + negative edges or cycle detection?** → Bellman–Ford
+- **Need single-source shortest paths + nonnegative edges, graph is sparse?** → Dijkstra
+- **Need all-pairs shortest paths, especially on dense graphs?** → Floyd–Warshall
 
 # 🌲 **TREE**
 
