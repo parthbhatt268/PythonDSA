@@ -681,7 +681,7 @@ floy did teh work on adding and update teh weight on the edges
 
 ---
 
-## Practical rule of thumb
+## Practical thumb rule
 
 - **Need single-source shortest paths + negative edges or cycle detection?** → Bellman–Ford
 - **Need single-source shortest paths + nonnegative edges, graph is sparse?** → Dijkstra
