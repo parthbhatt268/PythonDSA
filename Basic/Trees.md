@@ -536,7 +536,7 @@ Negative cycle means in a cycle the weight of the cycle added together is negati
 
 ## Key Terms
 
-### Relaxation
+### Relaxation - baiscally if you find an even cheaper route update it
 
 For an edge \( (u \rightarrow v) \) with weight \( w(u,v) \):
 
