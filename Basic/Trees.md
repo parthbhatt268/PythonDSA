@@ -200,6 +200,8 @@ And yes, we use a **stack** here because it’s one of the easiest ways to handl
 
 ## 2. Using BFS - Kahn’s Algorithm
 
+kahn's can only be applied using BFS
+
 --> (BFS method for Topological Sorting)
 
 This is the **second way** to do topological sorting: using **BFS with Kahn’s Algorithm**.
