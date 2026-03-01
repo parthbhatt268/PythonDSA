@@ -3,6 +3,14 @@
         "list.inactiveSelectionBackground": "#215d48",
         "activityBar.background": "#16154a",
         "titleBar.activeBackground": "#16154a",
-        "titleBar.activeForeground": "#026ae0"
+        "titleBar.activeForeground": "#026ae0",
+        "titleBar.inactiveBackground": "#1E1C64",
+        "titleBar.inactiveForeground": "#FBFBFE",
+        "statusBar.background": "#1E1C64",
+        "statusBar.foreground": "#FBFBFE",
+        "statusBar.debuggingBackground": "#1E1C64",
+        "statusBar.debuggingForeground": "#FBFBFE",
+        "statusBar.noFolderBackground": "#1E1C64",
+        "statusBar.noFolderForeground": "#FBFBFE"
     }
 }
