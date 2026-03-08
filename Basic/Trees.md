@@ -689,6 +689,49 @@ floy did teh work on adding and update teh weight on the edges
 - **Need single-source shortest paths + nonnegative edges, graph is sparse?** → Dijkstra
 - **Need all-pairs shortest paths, especially on dense graphs?** → Floyd–Warshall
 
+# Euler Path
+
+analogy is that picking dustbin for road.. - it is a path in graph that visits every **EDGE exactly once**
+
+**EULER is for EDGE not VERTEX**
+
+maybe rule is that start from node which has highest in-degree (MAYBE)
+
+condition -
+
+1. zero or two node can have **odd degree** and remaining node should have **even degree**
+2. all **non-zero nodes should be connected**
+
+---
+
+# Euler Circuit
+
+**Euler Circuit = Euler path + starting and ending NODE should be same**
+
+another thing is that if a graph is **euler circuit** then in graph if you start from **any node** then the euler circuit will always exist  
+this is **not same with euler path**
+
+condition -
+
+1. **all node degrees will be EVEN**
+2. all edges should be part of **single component** OR all **non-zero degree nodes should be connected**
+
+**EULER – EDGE – EVEN**
+
+---
+
+# For solving in code
+
+1. Find **degree of each node**
+2. If **even one degree is odd → not an EC**
+3. If **all are even then continue**
+4. Apply **DFS from any non-zero degree node**
+
+So you will have two arrays: **visited** and **indegree**
+
+5. Now compare the two arrays: if there is an **indegree > 0** but the corresponding node in **visited is false**, then we simply say **no EC**
+6. For any node that **does not have edge (indegree = 0)** we do **not need to check if it is visited**, we can simply **ignore them**
+
 # 🌲 **TREE**
 
 - For a tree with **n nodes**, there are **n−1 edges**; **no loops**.
