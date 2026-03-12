@@ -43,6 +43,42 @@ Backtracking uses a **state-space diagram** (a tree-like structure) and is handy
 
 A **Hamiltonian cycle** is a cycle in a graph where you **visit every node once** and **return to the starting node**.
 
+## Graph Paths and Cycles
+
+- **Hamiltonian Path**: Visits each vertex exactly once; doesn't have to return to the start.
+
+- **Hamiltonian Cycle**: Visits each vertex exactly once and returns to the starting point.
+
+- **Eulerian Path**: Uses each edge exactly once; doesn't have to visit every vertex.
+
+- **Eulerian Cycle**: Uses each edge exactly once and returns to the starting point.
+
+---
+
+## Examples
+
+### 1. Every Eulerian Circuit is **not** necessarily a Hamiltonian Cycle
+
+Imagine a graph with 5 nodes arranged so that you can visit all 5 nodes once, forming a Hamiltonian cycle. However, while doing this you might have to travel over some edges more than once.  
+This breaks the Eulerian rule of using **each edge exactly once**, so it would **not** be an Eulerian circuit.
+
+### 2. Every Eulerian Cycle is **not** necessarily a Hamiltonian Cycle
+
+Imagine a graph where you visit **all edges exactly once** (Eulerian cycle), but there is a **separate node disconnected** from the main structure.
+
+In that case:
+
+- You covered all edges → satisfies Eulerian cycle.
+- But you **missed one vertex** → not a Hamiltonian cycle.
+
+---
+
+## Complexity
+
+- **Hamiltonian Cycle Problem**: Determining whether a Hamiltonian cycle exists is **NP-complete**, and brute-force solutions can take **O(n!) (factorial time)**. AHHHHHHHHH :)
+
+- **Eulerian Cycle Check**: Much more efficient. It can be determined by checking the **degree of vertices** (all vertices must have even degree for a cycle).
+
 > If the graph has an **articulation point** or a **pendant node** (child node), then a **Hamiltonian cycle is not possible**.
 
 ---
@@ -731,6 +767,63 @@ So you will have two arrays: **visited** and **indegree**
 
 5. Now compare the two arrays: if there is an **indegree > 0** but the corresponding node in **visited is false**, then we simply say **no EC**
 6. For any node that **does not have edge (indegree = 0)** we do **not need to check if it is visited**, we can simply **ignore them**
+
+## Spanning Tree & Minimum Spanning Tree (MST)
+
+## Applications of Minimum Spanning Tree (MST)
+
+- **Railway Network Planning**  
+  When building railways between multiple cities, we want **all cities (nodes) connected** while **minimizing the total construction cost** (edge weights).  
+  Using a **Minimum Spanning Tree** ensures the **least overall railway cost** while keeping all cities connected.
+
+- **Cable / Fiber Network Design**  
+  When laying **internet fiber, cable TV lines, or electrical wiring** between houses or buildings, the goal is to **connect all locations while using the least total cable length**.  
+  An **MST helps minimize the total wire or cable required**, reducing overall cost.
+
+MST IS ALWAY CALUCTED ON TEH CONNECTED GARPAH
+GRAPH hi connected nai hai tho MST tree kaise connected banega
+Minimumn SPanning Tree last part after 01:00:00 watch https://www.youtube.com/watch?v=60WK9IFnFrg&list=PLQEaRBV9gAFte7vWOl3AWFABndCRCsIRQ&index=19
+
+### Spanning Tree
+
+- A **subset of edges** of a graph that forms a **tree** containing **all vertices** of the graph.
+
+### Properties of a Tree
+
+- If a tree has **N nodes**, it has **N − 1 edges**.
+- A tree **cannot contain cycles**.
+- **All nodes are connected**.
+
+### Minimum Spanning Tree (MST)
+
+- A **spanning tree** where the **sum of all edge weights is minimum**.
+- A graph can have **multiple spanning trees**, but only one (or a few) with the **minimum total weight**.
+
+### Finding MST Efficiently
+
+Instead of checking all possible spanning trees, we use algorithms:
+
+- **Prim’s Algorithm**
+- **Kruskal’s Algorithm**
+
+## Prim’s Algorithm
+
+### Steps
+
+1. Start with **any vertex** in the graph.
+2. Add the **smallest weighted edge** that connects a vertex in the tree to a vertex outside the tree.
+3. Add the **new vertex** to the tree.
+4. Repeat selecting the **minimum weight edge** connecting the tree to a new vertex.
+5. Stop when the tree contains **all vertices (N vertices and N−1 edges)**.
+
+### Time Complexity (TC)
+
+- **O(E log V)** using a **priority queue / min-heap**
+- **O(V²)** using a **simple adjacency matrix implementation**
+
+### Space Complexity (SC)
+
+- **O(V + E)** for storing the graph and auxiliary data structures.
 
 # 🌲 **TREE**
 
