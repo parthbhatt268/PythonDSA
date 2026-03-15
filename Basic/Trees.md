@@ -1174,6 +1174,139 @@ For sparse graphs where `E ≈ V`, this is `O(V log V)` — very efficient.
 | Skip if same component | Core cycle-avoidance logic                                             |
 | Stop at V-1 edges      | A spanning tree on V nodes always has exactly V-1 edges                |
 
+# Bridge Detection in Graphs
+
+> Finding edges whose removal increases the number of connected components.
+
+**Tags:** Graph Theory · DFS · Tarjan's Algorithm · O(V + E)
+
+---
+
+## What is a Bridge?
+
+An edge `(u, v)` in an undirected graph is called a **bridge** if removing it disconnects the graph — i.e., the number of connected components increases. Bridges represent critical connections: roads, network links, or any path that has no alternate route.
+
+---
+
+## Key Parameters Per Node
+
+| Parameter    | Description                                                                                                  |
+| ------------ | ------------------------------------------------------------------------------------------------------------ |
+| `disc[u]`    | **Discovery time** — the step at which node `u` was first visited in the DFS traversal.                      |
+| `low[u]`     | **Low time** — the lowest discovery time reachable from the subtree rooted at `u`, including via back-edges. |
+| `visited[u]` | Boolean flag to track whether node `u` has been visited in DFS.                                              |
+| `parent[u]`  | The node from which `u` was reached in DFS. Used to avoid traversing the same edge backwards.                |
+
+---
+
+## Bridge Condition
+
+> **An edge `(u, v)` is a bridge if `disc[u] < low[v]`.**
+
+This means the subtree of `v` has no back-edge that can reach `u` or any ancestor of `u`. The only path back goes through the edge `(u, v)` itself.
+
+---
+
+## The 3 Cases During DFS
+
+For each node `u` being processed, iterate over all its neighbors `v`:
+
+### Case 1 — Neighbor is the parent
+
+```
+if v == parent[u]  →  skip it
+```
+
+This is the edge we just came from. In an undirected graph, every edge appears twice in the adjacency list, so we must ignore this to avoid treating the parent edge as a back-edge.
+
+**Action:** `continue` to next neighbor.
+
+---
+
+### Case 2 — Neighbor is already visited (back-edge)
+
+```
+else if visited[v] == true  →  update low[u]
+    low[u] = min(low[u], disc[v])
+```
+
+Node `v` is already visited and is an ancestor. We can reach `v`'s discovery time from `u`'s subtree.
+
+> **Note:** We use `disc[v]` here, not `low[v]`. This keeps us honest — we only count actual ancestors, not paths that might loop through unrelated nodes.
+
+**Action:** Update `low[u]` using `disc[v]`.
+
+---
+
+### Case 3 — Neighbor is unvisited (tree edge)
+
+```
+else  →  recurse into v, then check bridge condition
+    DFS(v, parent = u)
+    low[u] = min(low[u], low[v])
+    if disc[u] < low[v]  →  (u, v) is a bridge
+```
+
+Recursively DFS into `v`. After it returns, propagate the low value back up and immediately check the bridge condition.
+
+**Action:** DFS → update `low[u]` → check bridge condition right away.
+
+---
+
+## The Critical Insight — It All Happens Simultaneously
+
+> ⚠️ There is **no** "first pass to mark disc and low, then second pass to find bridges." Everything happens in a **single DFS**.
+
+The moment the recursion returns from a child node `v` back to `u`, we immediately:
+
+1. Update `low[u]`
+2. Check if `(u, v)` is a bridge
+
+...right there, before moving to the next neighbor.
+
+Think of it as a **chain reaction**: as soon as DFS detects a back-edge (Case 2), that information — _"this subtree can reach an ancestor at time X"_ — propagates back up the call stack. Each returning frame updates its own `low` and checks its own edge. By the time DFS finishes, every bridge has already been found.
+
+---
+
+## Step-by-Step Flow
+
+1. Start DFS from any unvisited node. Assign `disc[u] = low[u] = timer++` and mark it visited.
+2. For each neighbor `v` of the current node `u`, apply the 3 cases above.
+3. When DFS on child `v` returns, do `low[u] = min(low[u], low[v])` — the child might have found a path to an ancestor that `u` can now benefit from.
+4. Immediately check: `if disc[u] < low[v]` → record edge `(u, v)` as a bridge.
+5. Continue to `u`'s next neighbor. Repeat. Bridges accumulate in a result list as the DFS unwinds.
+
+---
+
+## Why `disc[u] < low[v]` Works
+
+If `low[v]` is less than or equal to `disc[u]`, it means `v`'s subtree has a back-edge reaching `u` or higher — there's an alternate path. Removing `(u, v)` wouldn't disconnect anything.
+
+But if `low[v] > disc[u]` (equivalently, `disc[u] < low[v]`), the subtree under `v` is completely isolated from `u`'s ancestors — the only lifeline is the edge itself. That's a bridge.
+
+### Why not `low[v] >= disc[u]`?
+
+In bridge detection (unlike articulation points) we use **strict** less-than. If `low[v] == disc[u]`, it means `v` can reach exactly back to `u` — there's a cycle through `u`, so the edge is **not** a bridge. Only when `low[v] > disc[u]` is there truly no alternate path.
+
+---
+
+## Time & Space Complexity
+
+|           | Complexity | Reason                                                                                  |
+| --------- | ---------- | --------------------------------------------------------------------------------------- |
+| **Time**  | `O(V + E)` | Single DFS pass — every vertex and edge is visited exactly once.                        |
+| **Space** | `O(V)`     | Arrays for `disc`, `low`, `visited`, `parent` — each size V. Plus O(V) recursion stack. |
+
+---
+
+## Quick Recap
+
+- `disc[u]` — when was `u` first seen
+- `low[u]` — earliest ancestor `u`'s subtree can reach
+- **Bridge condition:** `disc[u] < low[v]` after DFS on child `v` returns
+- **3 cases:** skip parent · update low on back-edge · recurse on unvisited then check bridge
+- **One pass only** — discovery, low propagation, and bridge detection all happen in the same DFS unwind
+
 # 🌲 **TREE**
 
 - For a tree with **n nodes**, there are **n−1 edges**; **no loops**.
