@@ -1307,6 +1307,167 @@ In bridge detection (unlike articulation points) we use **strict** less-than. If
 - **3 cases:** skip parent · update low on back-edge · recurse on unvisited then check bridge
 - **One pass only** — discovery, low propagation, and bridge detection all happen in the same DFS unwind
 
+Brideg is for edge and articulationpoint is for identofying nodes
+
+# Articulation Points — Tarjan's Algorithm
+
+> A node is an **articulation point** if removing it increases the number of connected components.
+
+**Tags:** Graph Theory · DFS · Tarjan's Algorithm · O(V + E)
+
+---
+
+## Key Parameters
+
+| Parameter    | Description                                                          |
+| ------------ | -------------------------------------------------------------------- |
+| `disc[u]`    | Discovery time — when node `u` was first visited.                    |
+| `low[u]`     | Lowest discovery time reachable from `u`'s subtree (via back-edges). |
+| `parent[u]`  | Node from which `u` was reached in DFS.                              |
+| `visited[u]` | Whether `u` has been visited.                                        |
+
+---
+
+## The 2 Cases During DFS
+
+For each node `u`, iterate over all neighbors `v`:
+
+### Case 1 — Neighbor already visited (back-edge)
+
+```
+low[u] = min(low[u], disc[v])
+```
+
+Use `disc[v]`, **not** `low[v]`.
+
+> We want to know if `u` can reach back to that specific ancestor node `v`, not further beyond it. Using `low[v]` would allow jumping past `v` to its ancestors, which is incorrect for articulation point detection.
+
+---
+
+### Case 2 — Neighbor not visited (tree edge)
+
+```
+DFS(v, parent = u)
+low[u] = min(low[u], low[v])
+
+if disc[u] <= low[v]  →  u is an articulation point
+```
+
+After DFS returns, propagate `low` upward. If `v`'s subtree cannot reach any ancestor of `u`, then removing `u` disconnects `v`.
+
+> **Bridge uses `<`, articulation point uses `<=`** — if `low[v] == disc[u]`, `v` can only reach back to `u` itself. Removing `u` still cuts `v` off, so `u` is still an articulation point.
+
+---
+
+## The Parent Edge Case
+
+Applying the above naively makes the **DFS root always appear as an articulation point**. Special rule needed:
+
+```
+if u is root:
+    u is an articulation point  →  only if it has 2+ DFS children
+```
+
+- **1 child** — removing root just removes a dead-end. Not an articulation point.
+- **2+ children** — those subtrees are only connected through root. Removing it splits them. Articulation point.
+
+---
+
+## Why `disc[u] <= low[v]` and not `<`
+
+| `low[v]` vs `disc[u]` | Meaning                                                                     | Articulation Point? |
+| --------------------- | --------------------------------------------------------------------------- | ------------------- |
+| `low[v] < disc[u]`    | `v`'s subtree reaches an ancestor _above_ `u` — alternate path exists.      | No                  |
+| `low[v] == disc[u]`   | `v`'s subtree can only reach back to `u` — removing `u` still cuts `v` off. | **Yes**             |
+| `low[v] > disc[u]`    | `v`'s subtree can't reach `u` at all.                                       | **Yes**             |
+
+Condition `disc[u] <= low[v]` catches both the last two cases.
+
+---
+
+## Bridge vs Articulation Point — Key Difference
+
+|                               | Condition           | Back-edge update                |
+| ----------------------------- | ------------------- | ------------------------------- |
+| **Bridge** (edge)             | `disc[u] < low[v]`  | `low[u] = min(low[u], disc[v])` |
+| **Articulation Point** (node) | `disc[u] <= low[v]` | `low[u] = min(low[u], disc[v])` |
+
+Both use `disc[v]` (not `low[v]`) on back-edges — we care about reaching that specific ancestor, not jumping further up.
+
+---
+
+## Time & Space Complexity
+
+|           | Complexity | Reason                                                           |
+| --------- | ---------- | ---------------------------------------------------------------- |
+| **Time**  | `O(V + E)` | Single DFS — every node and edge visited once.                   |
+| **Space** | `O(V)`     | Arrays for `disc`, `low`, `visited`, `parent` + recursion stack. |
+
+---
+
+## ❌ Failed Hypothesis 1 — "If a neighbor is in the same cycle, the node can't be an articulation point"
+
+**Why it sounds right:** If a node's neighbors are all part of the same cycle, removing it seems safe because the cycle provides alternate paths.
+
+**Why it fails:** A node can be part of a cycle _and still_ be an articulation point — because it may also connect to a completely separate subtree that has no other way back.
+
+**Example:**
+
+```
+1 - 2 - 3 - 1   (a cycle: 1, 2, 3)
+        |
+        4
+```
+
+Node `3` is part of the cycle `1-2-3`. But node `4` is only connected through `3`. Removing `3` disconnects `4` entirely. So `3` **is** an articulation point — even though it sits inside a cycle.
+
+> The cycle only protects the nodes within it. Any dangling subtree hanging off a cycle node is still vulnerable.
+
+---
+
+## ❌ Failed Hypothesis 2 — "Find all bridges first, then their endpoints are articulation points"
+
+**Why it sounds right:** A bridge is a critical edge, so naturally both nodes on either end seem critical too.
+
+**Why it fails — two reasons:**
+
+1. **A node can be an articulation point without being part of any bridge.** If a node sits at the centre of two cycles, removing it disconnects them — but all its edges are part of cycles, so none of them are bridges.
+
+2. **Not every bridge endpoint is an articulation point.** A leaf node (degree 1) has one bridge edge — but removing it only removes itself, it doesn't split the graph. It is not an articulation point.
+
+**Example for point 1:**
+
+```
+1 - 2 - 3
+|       |
+4 - 5 - 6
+    |
+    7 - 8 - 9
+        |   |
+        10-11
+```
+
+Node `5` connects two cycles (top square and bottom square). No edge from `5` is a bridge. But removing `5` disconnects the two halves. Bridge-first approach misses `5` entirely.
+
+**Example for point 2:**
+
+```
+1 - 2 - 3
+```
+
+Edge `(1, 2)` is a bridge. Node `1` is a leaf — removing it doesn't disconnect anything. Node `1` is **not** an articulation point despite being a bridge endpoint.
+
+> The bridge-first approach is both incomplete (misses some articulation points) and over-eager (incorrectly flags some bridge endpoints). Tarjan's algorithm handles all cases correctly in one pass.
+
+---
+
+## Quick Recap
+
+- Back-edge → `low[u] = min(low[u], disc[v])`
+- Tree edge → DFS, then `low[u] = min(low[u], low[v])`, then check `disc[u] <= low[v]`
+- Root is special → articulation point only if it has **2+ DFS children**
+- One pass only — everything happens as DFS unwinds
+
 # 🌲 **TREE**
 
 - For a tree with **n nodes**, there are **n−1 edges**; **no loops**.
