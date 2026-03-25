@@ -1317,7 +1317,7 @@ Brideg is for edge and articulationpoint is for identofying nodes
 
 ---
 
-## Key Parameters
+## Key Parameterss
 
 | Parameter    | Description                                                          |
 | ------------ | -------------------------------------------------------------------- |
