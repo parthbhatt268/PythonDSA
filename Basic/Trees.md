@@ -1466,7 +1466,7 @@ Edge `(1, 2)` is a bridge. Node `1` is a leaf — removing it doesn't disconnect
 - Back-edge → `low[u] = min(low[u], disc[v])`
 - Tree edge → DFS, then `low[u] = min(low[u], low[v])`, then check `disc[u] <= low[v]`
 - Root is special → articulation point only if it has **2+ DFS children**
-- One pass only — everything happens as DFS unwinds
+- One pass only — everything happens as DFS unwindss
 
 # 🌲 **TREE**
 
