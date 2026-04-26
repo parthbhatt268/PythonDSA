@@ -1468,6 +1468,33 @@ Edge `(1, 2)` is a bridge. Node `1` is a leaf — removing it doesn't disconnect
 - Root is special → articulation point only if it has **2+ DFS children**
 - One pass only — everything happens as DFS unwindss
 
+## Hamiltonian Path and Hamiltonian Cycle
+
+- Visits every node exactly once.
+- For a **Hamiltonian cycle**, the last visited node must have a direct edge back to the starting node.
+- **Example to remember:** Think of a delivery person who wants to visit every city exactly once — that minimizes total travel time.
+- **IMP:** The choice of starting node can also decide whether a Hamiltonian path exists or not.
+- If a Hamiltonian path exists, it does **NOT** mean a Hamiltonian cycle will also exist.
+- BUT if a Hamiltonian cycle exists, then a Hamiltonian path is **guaranteed** to exist as well.
+
+---
+
+# SCC — Strongly Connected Component
+
+A **Strongly Connected Component** is a maximal group of nodes where every node can reach every other node.
+
+- **Correct:** If a component is an SCC, it remains an SCC even when we reverse the direction of all edges in that component.
+- **Wrong:** Only two nodes forming a cycle make an SCC — incorrect, an SCC can have any number of mutually reachable nodes.
+- **Correct:** An SCC can contain one or more cycles.
+
+---
+
+## Kosaraju's Algorithm
+
+1. **Topological sort using DFS** — Do NOT use Kahn's (BFS); Kahn's stops and returns nothing when it detects a cycle. DFS gives a finishing order even on cyclic graphs. This order tells you which SCC should come before which — without this correct ordering, you might start from the wrong SCC and traverse in the wrong direction.
+2. **Reverse all edges** in the graph.
+3. **Pop from stack and run DFS** — The stack from Step 1 holds nodes in topological finish order. Pop each node: if already visited, skip it; if not visited, increment SCC count by 1 and run DFS from it on the reversed graph. All nodes reached in that DFS form one SCC.
+
 # 🌲 **TREE**
 
 - For a tree with **n nodes**, there are **n−1 edges**; **no loops**.
